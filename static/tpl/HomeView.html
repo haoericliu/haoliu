@@ -8,10 +8,10 @@
             Username
           </td>
           <td>
-            <input type="text" name="username" value="">
+            <input type="text" name="username" value="<%= typeof(username)!== 'undefined' ?  username : '' %>">
           </td>
           <td class="error">
-            {{error_username}}
+            <%= typeof(error_username)!== 'undefined' ?  error_username : '' %>
           </td>
         </tr>
 
@@ -23,7 +23,7 @@
             <input type="password" name="password" value="">
           </td>
           <td class="error">
-            {{error_password}}
+            <%= typeof(error_password)!== 'undefined' ?  error_password : '' %>
           </td>
         </tr>
 
@@ -35,7 +35,7 @@
             <input type="password" name="verify" value="">
           </td>
           <td class="error">
-            {{error_verify}}
+            <%= typeof(error_verify)!== 'undefined' ?  error_verify : '' %>
           </td>
         </tr>
 
@@ -47,7 +47,7 @@
             <input type="text" name="email" value="">
           </td>
           <td class="error">
-            {{error_email}}
+            <%= typeof(error_email)!== 'undefined' ?  error_email : '' %>
           </td>
         </tr>
       </table>
