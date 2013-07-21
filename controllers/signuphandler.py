@@ -74,8 +74,10 @@ class SignupHandler(BaseHandler, SessionMixin):
       params['error_email'] = "That's not a valid email."
       have_error = True
 
-    self.content_type =  'application/json';
     if have_error:
       self.write(json_encode(params));
+      self.set_status(400)
     else:
       self.write("Successful");
+
+    self.set_header("Content-Type", "application/json") 
