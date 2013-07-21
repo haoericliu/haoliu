@@ -37,7 +37,7 @@ app.Router = Backbone.Router.extend({
         // Since the home view never changes, we instantiate it and render it only once
         if (!app.homelView) {
             app.homelView = new app.HomeView();
-            app.homelView.render();
+            app.homelView.render(null);
         } else {
             console.log('reusing home view');
             app.homelView.delegateEvents(); // delegate events when the view is recycled

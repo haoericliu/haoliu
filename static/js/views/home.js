@@ -4,8 +4,8 @@ app.HomeView = Backbone.View.extend({
         "submit #signup-form":"submit"
     },
 
-    render:function () {
-        this.$el.html(this.template());
+    render:function (data) {
+        this.$el.html(this.template(data));
         return this;
     },
 
@@ -20,12 +20,14 @@ app.HomeView = Backbone.View.extend({
       }
 
       var signup = new app.Signup(data);
+      var that = this;
       signup.save(null, {
         success: function(model, response) {
           alert(response);
+
         },
         error: function(model, response) {
-          alert(response);
+          that.render($.parseJSON(response.responseText));
         }
       });
     }

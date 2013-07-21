@@ -78,6 +78,6 @@ class SignupHandler(BaseHandler, SessionMixin):
       self.write(json_encode(params));
       self.set_status(400)
     else:
-      self.write("Successful");
+      self.write(json_encode("successful"));
 
     self.set_header("Content-Type", "application/json") 
