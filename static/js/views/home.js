@@ -19,8 +19,15 @@ app.HomeView = Backbone.View.extend({
         "email": this.$("input[name=email]").val()
       }
 
-     var signup = new app.Signup(data);
-     signup.save();
+      var signup = new app.Signup(data);
+      signup.save(null, {
+        success: function(model, response) {
+          alert(response);
+        },
+        error: function(model, response) {
+          alert(response);
+        }
+      });
     }
 
 });
