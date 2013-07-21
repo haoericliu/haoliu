@@ -1,0 +1,52 @@
+import os.path
+import inspect
+import base64
+import logging
+import json 
+import tornado.httpserver
+import tornado.ioloop
+import tornado.options
+import tornado.web
+import uuid
+from controllers import UserManager
+ 
+from tornado.options import define, options
+
+this_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
+
+define("port", default=8000, help="run on the given port", type=int)
+
+rootLogger = logging.getLogger('')
+rootLogger.setLevel(logging.ERROR)
+
+
+CLIENT_ID = json.loads(
+    open(os.path.join(this_folder,'client_secrets.json'), 'r').read())['web']['client_id']
+
+class IndexHandler(tornado.web.RequestHandler):
+  def get(self):
+    self.render("index.html", CLIENT_ID=CLIENT_ID)
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r"/", IndexHandler),
+        ]
+        settings = dict(
+            cookie_secret=base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
+            template_path=os.path.join(os.path.dirname(__file__), "template"),
+            static_path=os.path.join(os.path.dirname(__file__), "static"),
+            xsrf_cookies=True,
+            autoescape=None,
+        )
+        UserManager.install(handlers)
+        tornado.web.Application.__init__(self, handlers, **settings)
+
+def main():
+    tornado.options.parse_command_line()
+    app = Application()
+    app.listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()
+
+if __name__ == "__main__":
+    main()
