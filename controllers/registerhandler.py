@@ -76,8 +76,17 @@ class RegisterHandler(BaseHandler, SessionMixin):
       self.set_status(400)
     else:
       try:
-        u = User.create(username=self.username, password_hash=elf.password, email=self.email)
-        self.write(json_encode("successful"));
-      except IntegrityError:
-        self.write("wht")
+        u = User.get(User.username == self.username)
+        params['error_username'] = "That user already exists."
+        self.write(json_encode(params))
+        self.set_status(400)
+      except User.DoesNotExist:
+        try:
+          u = User.create(username=self.username, password_hash=elf.password, email=self.email)
+          self.write(json_encode("successful"));
+        except IntegrityError:
+          params['error_username'] = "That user already exists."
+          self.write(json_encode(params))
+          self.set_status(400)
+          
     self.set_header("Content-Type", "application/json") 
