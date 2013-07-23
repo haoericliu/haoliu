@@ -16,7 +16,7 @@ class BaseModel(Model):
 
 # the user model specifies its fields (or columns) declaratively, like django
 class User(BaseModel):
-    username = CharField()
+    username = CharField(unique=True)
     password = CharField()
     email = CharField()
     join_date = DateTimeField()
