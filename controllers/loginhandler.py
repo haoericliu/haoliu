@@ -54,14 +54,15 @@ class LoginHandler(BaseHandler, SessionMixin):
     have_error = False
     self.username = self.json_args.get('username')
     self.password = self.json_args.get('password')
-
+    params = dict()
     try:
       u = User.get(User.username == self.username)
       if valid_pw(self.username, self.password, u.password_hash):
         self.write("Successful")
       else:
-        self.write("Incorrect Password")
+        params['error_msg'] = 'Invalid Crendential'
         self.set_status(400)
     except User.DoesNotExist:
-      self.write("Incorrect Credentials")
+      params['error_msg'] = 'Invalid Crendential'
       self.set_status(400)
+    self.set_header("Content-Type", "application/json") 
