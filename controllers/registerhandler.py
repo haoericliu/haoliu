@@ -74,7 +74,9 @@ class RegisterHandler(BaseHandler, SessionMixin):
       self.write(json_encode(params));
       self.set_status(400)
     else:
-      u = User.create(username=self.username, password_hash=self.password, email=self.email)
-      self.write(json_encode("successful"));
-
+      try:
+        u = User.create(username=self.username, password_hash=elf.password, email=self.email)
+        self.write(json_encode("successful"));
+      except IntegrityError:
+        self.write("wht")
     self.set_header("Content-Type", "application/json") 
