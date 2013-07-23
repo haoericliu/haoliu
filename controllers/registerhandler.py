@@ -14,7 +14,10 @@ from models import User
 
 import json
 import random
+import hashlib
+import hmac
 import string
+from string import letters
 import sys
 import datetime
 import logging
@@ -95,7 +98,8 @@ class RegisterHandler(BaseHandler, SessionMixin):
         self.set_status(400)
       except User.DoesNotExist:
         try:
-          u = User.create(username=self.username, password=self.password, email=self.email, join_date=datetime.datetime.now())
+          self.pw_hash = make_pw_hash(self.username, self.password)
+          u = User.create(username=self.username, password_hash=self.pw_hash, email=self.email, join_date=datetime.datetime.now())
           self.write(json_encode("successful"));
         except IntegrityError:
           params['error_username'] = "That user already exists."
