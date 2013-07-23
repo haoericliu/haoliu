@@ -30,7 +30,7 @@ app.Router = Backbone.Router.extend({
 
     initialize: function () {
      this.$content = $("#content"); 
-     this.home();
+     this.login();
     },
 
     home: function () {
@@ -43,13 +43,23 @@ app.Router = Backbone.Router.extend({
             app.homelView.delegateEvents(); // delegate events when the view is recycled
         }
         this.$content.html(app.homelView.el);
-        app.shellView.selectMenuItem('home-menu');
     },
+
+    login: function() {
+        if (!app.loginView) {
+            app.loginView = new app.LoginView();
+            app.loginView.render(null);
+        } else {
+            console.log("reusing login view");
+            app.loginView.delegateEvents();
+        }
+        this.$content.html(app.loginView.el);
+    }
 
 });
 
 $(document).on("ready", function () {
-    app.loadTemplates(["HomeView"],
+    app.loadTemplates(["HomeView", "LoginView"],
         function () {
             app.router = new app.Router();
             Backbone.history.start();

@@ -55,7 +55,6 @@ class Application(tornado.web.Application):
         }
         UserHandler.install(handlers)
         RegisterHandler.install(handlers)
-        LoginHandler.install(handlers)
         tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():
