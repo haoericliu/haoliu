@@ -74,6 +74,14 @@ class RegisterHandler(BaseHandler, SessionMixin):
       self.write(json_encode(params));
       self.set_status(400)
     else:
-      self.write(json_encode("successful"));
+            #make sure the user doesn't already exist
+      u = User.get(User.username == self.username)
+      if u:
+          params['error_username'] = "That user already exists."
+          self.write(json_encode(params))
+          self.set_status(400)
+      else:
+          u = User.create(username=self.username, password_hash=elf.password, email=self.email)
+          self.write(json_encode("successful"));
 
     self.set_header("Content-Type", "application/json") 
