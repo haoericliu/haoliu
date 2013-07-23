@@ -76,7 +76,7 @@ class RegisterHandler(BaseHandler, SessionMixin):
       self.set_status(400)
     else:
       try:
-        u = User.create(username=self.username, password_hash=elf.password, email=self.email)
+        u = User.create(username=self.username, password_hash=self.password, email=self.email)
         self.write(json_encode("successful"));
       except IntegrityError:
         self.write("wht")
