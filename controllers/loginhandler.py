@@ -61,8 +61,10 @@ class LoginHandler(BaseHandler, SessionMixin):
         self.write("Successful")
       else:
         params['error_msg'] = 'Invalid Crendential'
+        self.write(json_encode(params))
         self.set_status(400)
     except User.DoesNotExist:
       params['error_msg'] = 'Invalid Crendential'
+      self.write(json_encode(params))
       self.set_status(400)
     self.set_header("Content-Type", "application/json") 
