@@ -50,7 +50,7 @@ EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
-class RegisterHandler(BaseHandler, SessionMixin):
+class RegisterHandler(BaseHandler):
   @classmethod
   def install(cls, handlers):
     handlers.append((r"/register", RegisterHandler))
