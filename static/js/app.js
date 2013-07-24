@@ -42,6 +42,19 @@ app.Router = Backbone.Router.extend({
      this.register();
     },
 
+    home: functon() {
+        // Since the home view never changes, we instantiate it and render it only once
+        if (!app.homeView) {
+            app.homeView = new app.HomeView();
+            app.homeView.render(null);
+        } else {
+            console.log('reusing home view');
+            app.homeView.delegateEvents(); // delegate events when the view is recycled
+        }
+        this.$content.html(app.homeView.el);
+        app.shellView.selectMenuItem('home-menu');
+    },
+
     register: function () {
         // Since the home view never changes, we instantiate it and render it only once
         if (!app.registerView) {
@@ -70,7 +83,7 @@ app.Router = Backbone.Router.extend({
 });
 
 $(document).on("ready", function () {
-    app.loadTemplates(["ShellView", "RegisterView", "LoginView"],
+    app.loadTemplates(["ShellView", "RegisterView", "LoginView", "HomeView"],
         function () {
             app.router = new app.Router();
             Backbone.history.start();
