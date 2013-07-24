@@ -32,17 +32,17 @@ app.Router = Backbone.Router.extend({
     },
 
     initialize: function () {
-    app.shellView = new app.ShellView();
-    $('body').html(app.shellView.render().el);
-    // Close the search dropdown on click anywhere in the UI
-    $('body').click(function () {
-        $('.dropdown').removeClass("open");
-    });
-     this.$content = $("#content"); 
-     this.register();
+        app.shellView = new app.ShellView();
+        $('body').html(app.shellView.render().el);
+        // Close the search dropdown on click anywhere in the UI
+        $('body').click(function () {
+            $('.dropdown').removeClass("open");
+        });
+        this.$content = $("#content"); 
+        this.register();
     },
 
-    home: functon() {
+    home: function() {
         // Since the home view never changes, we instantiate it and render it only once
         if (!app.homeView) {
             app.homeView = new app.HomeView();
@@ -52,9 +52,8 @@ app.Router = Backbone.Router.extend({
             app.homeView.delegateEvents(); // delegate events when the view is recycled
         }
         this.$content.html(app.homeView.el);
-        app.shellView.selectMenuItem('home-menu');
+        app.homeView.selectMenuItem('home-menu');
     },
-
     register: function () {
         // Since the home view never changes, we instantiate it and render it only once
         if (!app.registerView) {
