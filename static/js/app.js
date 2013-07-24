@@ -26,23 +26,33 @@ var app = {
 app.Router = Backbone.Router.extend({
 
     routes: {
+        "": "home",
+        "login": "login",
+        "register": "register",
     },
 
     initialize: function () {
+    app.shellView = new app.ShellView();
+    $('body').html(app.shellView.render().el);
+    // Close the search dropdown on click anywhere in the UI
+    $('body').click(function () {
+        $('.dropdown').removeClass("open");
+    });
      this.$content = $("#content"); 
-     this.login();
+     this.register();
     },
 
-    home: function () {
+    register: function () {
         // Since the home view never changes, we instantiate it and render it only once
-        if (!app.homelView) {
-            app.homelView = new app.HomeView();
-            app.homelView.render(null);
+        if (!app.registerView) {
+            app.registerView = new app.RegisterView();
+            app.registerView.render(null);
         } else {
-            console.log('reusing home view');
-            app.homelView.delegateEvents(); // delegate events when the view is recycled
+            console.log('reusing register view');
+            app.registerView.delegateEvents(); // delegate events when the view is recycled
         }
-        this.$content.html(app.homelView.el);
+        this.$content.html(app.registerView.el);
+        app.shellView.selectMenuItem('register-menu');
     },
 
     login: function() {
@@ -54,12 +64,13 @@ app.Router = Backbone.Router.extend({
             app.loginView.delegateEvents();
         }
         this.$content.html(app.loginView.el);
+        app.shellView.selectMenuItem('login-menu');
     }
 
 });
 
 $(document).on("ready", function () {
-    app.loadTemplates(["HomeView", "LoginView"],
+    app.loadTemplates(["ShellView", "RegisterView", "LoginView"],
         function () {
             app.router = new app.Router();
             Backbone.history.start();

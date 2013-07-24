@@ -1,4 +1,4 @@
-app.HomeView = Backbone.View.extend({
+app.RegisterView = Backbone.View.extend({
 
     events:{
         "submit #signup-form":"submit"
@@ -19,7 +19,7 @@ app.HomeView = Backbone.View.extend({
         "email": this.$("input[name=email]").val()
       }
 
-      var signup = new app.Signup(data);
+      var signup = new app.Register(data);
       var that = this;
       signup.save(null, {
         success: function(model, response) {
