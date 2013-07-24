@@ -2,6 +2,7 @@ import tornado.web
 import logging
 import functools
 import json
+import hashlib
 from models import User
 
 def login_required(method):
@@ -29,7 +30,7 @@ def make_pw_hash(name, pw, salt = None):
 def valid_pw(name, password, h):
     salt = h.split(',')[0]
     return h == make_pw_hash(name, password, salt)
-    
+
 class BaseHandler(tornado.web.RequestHandler):
     def prepare(self):
       if self.request.headers.get("Content-Type") == "application/json":
