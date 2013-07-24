@@ -14,6 +14,7 @@ import uuid
 from pycket.session import SessionMixin
 from controllers import RegisterHandler
 from controllers import LoginHandler
+from controllers import LogoutHandler
 from tornado.options import define, options
 
 this_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
@@ -55,6 +56,7 @@ class Application(tornado.web.Application):
         }
         RegisterHandler.install(handlers)
         LoginHandler.install(handlers)
+        LogoutHandler.install(handlers)
         tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():

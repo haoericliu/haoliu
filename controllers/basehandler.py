@@ -4,6 +4,8 @@ import functools
 import json
 import hashlib
 from models import User
+import random
+from string import letters
 
 def login_required(method):
     """Decorate methods with this to require that the user be logged in.

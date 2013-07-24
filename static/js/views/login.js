@@ -21,7 +21,7 @@ app.LoginView = Backbone.View.extend({
       var that = this;
       login.save(null, {
         success: function(model, response) {
-          app.router.navigate("#", true); 
+          app.credential.setSessionId($.cookie('user_id'));
         },
         error: function(model, response) {
           that.render($.parseJSON(response.responseText));

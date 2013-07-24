@@ -26,20 +26,42 @@ var app = {
 app.Router = Backbone.Router.extend({
 
     routes: {
-        "": "home",
+        "home": "home",
         "login": "login",
+        "logout": "logout",
         "register": "register",
     },
 
     initialize: function () {
+        app.credential = new app.Credential();
+        app.credential.bind('change:loggedIn', this.landingPage, this);
+        this.landingPage();
+    },
+
+    landingPage: function() {
+        var loggedIn = app.credential.get('loggedIn');
+        this.$content = $("#content");
+        if (!loggedIn) {
+          this.register();
+        } else {
+          this.shell();
+        }
+    },
+
+    shell: function() {
+      if (!app.shellView) {
         app.shellView = new app.ShellView();
-        $('body').html(app.shellView.render().el);
-        // Close the search dropdown on click anywhere in the UI
-        $('body').click(function () {
+      } else {
+         console.log('reusing shell view');
+         app.shellView.delegateEvents();
+      } 
+     $('body').html(app.shellView.render().el);
+     $('body').click(function () {
             $('.dropdown').removeClass("open");
-        });
-        this.$content = $("#content"); 
-        this.register();
+     });
+
+     this.$content = $("#content");
+     this.home();
     },
 
     home: function() {
@@ -52,9 +74,14 @@ app.Router = Backbone.Router.extend({
             app.homeView.delegateEvents(); // delegate events when the view is recycled
         }
         this.$content.html(app.homeView.el);
-        app.homeView.selectMenuItem('home-menu');
     },
+
     register: function () {
+        if (app.credential.get('loggedIn')) {
+          this.navigate('#home', true);
+          return;
+        }
+
         // Since the home view never changes, we instantiate it and render it only once
         if (!app.registerView) {
             app.registerView = new app.RegisterView();
@@ -64,10 +91,14 @@ app.Router = Backbone.Router.extend({
             app.registerView.delegateEvents(); // delegate events when the view is recycled
         }
         this.$content.html(app.registerView.el);
-        app.shellView.selectMenuItem('register-menu');
     },
 
     login: function() {
+        if (app.credential.get('loggedIn')) {
+          this.navigate('#home', true);
+          return;
+        }
+
         if (!app.loginView) {
             app.loginView = new app.LoginView();
             app.loginView.render(null);
@@ -76,9 +107,19 @@ app.Router = Backbone.Router.extend({
             app.loginView.delegateEvents();
         }
         this.$content.html(app.loginView.el);
-        app.shellView.selectMenuItem('login-menu');
-    }
+    },
 
+    logout: function() {
+      $.ajax({
+            url:"/logout",
+            type:'POST',
+            dataType:"json",
+            headers: { "X-CSRFToken": $.cookie("csrftoken") },
+            success:function () {
+              app.credential.setSessionId(null);
+            }
+        });
+    }
 });
 
 $(document).on("ready", function () {
