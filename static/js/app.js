@@ -30,7 +30,7 @@ app.Router = Backbone.Router.extend({
 
     initialize: function () {
      this.$content = $("#content"); 
-     this.login();
+     this.home();
     },
 
     home: function () {

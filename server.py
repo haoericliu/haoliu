@@ -12,7 +12,6 @@ import tornado.web
 from tornado.template import Loader
 import uuid
 from pycket.session import SessionMixin
-from controllers import UserHandler
 from controllers import RegisterHandler
 from tornado.options import define, options
 
@@ -53,7 +52,6 @@ class Application(tornado.web.Application):
                 'db_notifications': 11
             }
         }
-        UserHandler.install(handlers)
         RegisterHandler.install(handlers)
         LoginHandler.install(handlers)
         tornado.web.Application.__init__(self, handlers, **settings)
