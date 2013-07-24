@@ -13,6 +13,7 @@ from tornado.template import Loader
 import uuid
 from pycket.session import SessionMixin
 from controllers import RegisterHandler
+from controllers import LoginHandler
 from tornado.options import define, options
 
 this_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
