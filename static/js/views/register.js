@@ -23,8 +23,7 @@ app.RegisterView = Backbone.View.extend({
       var that = this;
       signup.save(null, {
         success: function(model, response) {
-          alert(response);
-
+          app.router.navigator("#", true);
         },
         error: function(model, response) {
           that.render($.parseJSON(response.responseText));

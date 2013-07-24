@@ -38,7 +38,7 @@ class LoginHandler(BaseHandler):
     try:
       u = User.get(User.username == self.username)
       if valid_pw(self.username, self.password, u.password_hash):
-        self.login(user)
+        self.login(u)
         self.write(json.dumps({"msg": 'Successfully connected user.'}))
       else:
         params['error_msg'] = 'Invalid Crendential'
