@@ -38,18 +38,11 @@ def valid_pw(name, password, h):
     salt = h.split(',')[0]
     return h == make_pw_hash(name, password, salt)
 
-class LoginHandler(BaseHandler, SessionMixin):
+class LoginHandler(BaseHandler):
   @classmethod
   def install(cls, handlers):
     handlers.append((r"/login", LoginHandler))
   
-  def check_xsrf_cookie(self):
-    return True
-
-  def prepare(self):
-    if self.request.headers.get("Content-Type") == "application/json":
-        self.json_args = json.loads(self.request.body)
-
   def post(self):
     have_error = False
     self.username = self.json_args.get('username')
@@ -58,7 +51,8 @@ class LoginHandler(BaseHandler, SessionMixin):
     try:
       u = User.get(User.username == self.username)
       if valid_pw(self.username, self.password, u.password_hash):
-        self.write("Successful")
+        self.login(user)
+        self.write(json.dumps({"msg": 'Successfully connected user.'}))
       else:
         params['error_msg'] = 'Invalid Crendential'
         self.write(json_encode(params))

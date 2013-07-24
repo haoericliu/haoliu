@@ -25,7 +25,7 @@ import re
 from tornado.escape import json_encode
 from _mysql_exceptions import IntegrityError
 
-def make_salt(length = 5):
+def make_salt(length = 10):
     return ''.join(random.choice(letters) for x in xrange(length))
 
 def make_pw_hash(name, pw, salt = None):
@@ -54,13 +54,6 @@ class RegisterHandler(BaseHandler, SessionMixin):
   @classmethod
   def install(cls, handlers):
     handlers.append((r"/register", RegisterHandler))
-  
-  def check_xsrf_cookie(self):
-    return True
-
-  def prepare(self):
-    if self.request.headers.get("Content-Type") == "application/json":
-        self.json_args = json.loads(self.request.body)
 
   def post(self):
     have_error = False
@@ -100,6 +93,7 @@ class RegisterHandler(BaseHandler, SessionMixin):
         try:
           self.pw_hash = make_pw_hash(self.username, self.password)
           u = User.create(username=self.username, password_hash=self.pw_hash, email=self.email, join_date=datetime.datetime.now())
+          self.login(u)
           self.write(json_encode("successful"));
         except IntegrityError:
           params['error_username'] = "That user already exists."

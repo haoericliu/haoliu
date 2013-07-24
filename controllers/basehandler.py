@@ -1,5 +1,4 @@
 import tornado.web
-from pycket.session import SessionMixin
 import logging
 import functools
 from models import User
@@ -17,11 +16,24 @@ def login_required(method):
         return method(self, *args, **kwargs)
     return wrapper
 
-class BaseHandler(tornado.web.RequestHandler, SessionMixin):
+class BaseHandler(tornado.web.RequestHandler):
+    def prepare(self):
+      if self.request.headers.get("Content-Type") == "application/json":
+        self.json_args = json.loads(self.request.body)
+    
+    def check_xsrf_cookie(self):
+      return True
+
     def get_current_user(self):
-      gplus_id = self.session.get('gplus_id')
-      if gplus_id is not None:
-        logging.info("user id: " + gplus_id)
-        return User.get(identifier=gplus_id,provider="Google")
+      user_id = self.get_secure_cookie('user_id')
+      if user_id is not None:
+        logging.info("user_id: " + user_id)
+        return User.get(User.id == user_id)
       else:
-        logging.info("user not found")
+        logging.info("user id" + user_id + " not found")
+
+    def login(self, user):
+        self.set_secure_cookie('user_id', str(user.id))
+
+    def logout(self):
+        self.clear_cookie('user_id')
