@@ -24,9 +24,14 @@ class User(BaseModel):
     class Meta:
         order_by = ('username',)
 
+class Photo(BaseModel):
+    identifier = CharField(unique=True)
+    location = CharField()
+
 def create_tables():
     database.connect()
     User.create_table(True)
+    Photo.create_table(True)
     
 if __name__ == "__main__":
     create_tables()

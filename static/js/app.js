@@ -30,6 +30,7 @@ app.Router = Backbone.Router.extend({
         "login": "login",
         "logout": "logout",
         "register": "register",
+        "upload": "upload",
     },
 
     initialize: function () {
@@ -119,11 +120,17 @@ app.Router = Backbone.Router.extend({
               app.credential.setSessionId(null);
             }
         });
+    },
+
+    upload: function() {
+      app.uploadView = new app.UploadView();
+      app.uploadView.render(null);
+      this.$content.html(app.uploadView.el);
     }
 });
 
 $(document).on("ready", function () {
-    app.loadTemplates(["ShellView", "RegisterView", "LoginView", "HomeView"],
+    app.loadTemplates(["ShellView", "RegisterView", "LoginView", "HomeView", "UploadView"],
         function () {
             app.router = new app.Router();
             Backbone.history.start();
