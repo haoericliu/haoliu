@@ -1,0 +1,15 @@
+MySQL-python==1.2.4
+argparse==1.2.1
+boto==2.9.9
+google-api-python-client==1.1
+httplib2==0.8
+meld3==0.6.10
+peewee==2.1.2
+pycket==0.3.0
+python-gflags==2.0
+redis==2.7.5
+requests==1.2.3
+supervisor==3.0b2
+tornado==3.0.2
+wsgiref==0.1.2
+yolk==0.4.3
