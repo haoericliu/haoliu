@@ -1,5 +1,4 @@
 import tornado.web
-from apiclient.discovery import build
 
 import os
 import sys
@@ -8,7 +7,7 @@ from basehandler import *
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../models'))
 if not path in sys.path:
-    sys.path.insert(1, path)
+  sys.path.insert(1, path)
 
 from models import User
 
@@ -27,15 +26,15 @@ from _mysql_exceptions import IntegrityError
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
-    return username and USER_RE.match(username)
+  return username and USER_RE.match(username)
 
 PASS_RE = re.compile(r"^.{3,20}$")
 def valid_password(password):
-    return password and PASS_RE.match(password)
+  return password and PASS_RE.match(password)
 
 EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
-    return not email or EMAIL_RE.match(email)
+  return not email or EMAIL_RE.match(email)
 
 class RegisterHandler(BaseHandler):
   @classmethod
@@ -49,8 +48,7 @@ class RegisterHandler(BaseHandler):
     self.verify = self.json_args.get('verify')
     self.email = self.json_args.get('email')
 
-    params = dict(username = self.username,
-                 email = self.email)
+    params = dict(username = self.username, email = self.email)
 
     if not valid_username(self.username):
       params['error_username'] = "That's not a valid username."

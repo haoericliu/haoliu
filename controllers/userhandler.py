@@ -1,12 +1,7 @@
 import tornado.web
-from apiclient.discovery import build
 
 import os
 import sys
-import httplib2
-from oauth2client.client import AccessTokenRefreshError
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
 
 from pycket.session import SessionMixin
 from basehandler import *
@@ -24,11 +19,6 @@ import string
 import sys
 import datetime
 import logging
-
-CLIENT_ID = json.loads(
-    open('/home/ubuntu/app/app/client_secrets.json', 'r').read())['web']['client_id']
-SERVICE = build('plus', 'v1')
-PROVIDER = "Google"
 
 class UserHandler(BaseHandler, SessionMixin):
   @classmethod

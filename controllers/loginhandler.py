@@ -1,6 +1,4 @@
 import tornado.web
-from apiclient.discovery import build
-
 import os
 import sys
 
@@ -8,7 +6,7 @@ from basehandler import *
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../models'))
 if not path in sys.path:
-    sys.path.insert(1, path)
+  sys.path.insert(1, path)
 
 from models import User
 

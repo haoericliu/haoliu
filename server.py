@@ -25,7 +25,7 @@ define("port", default=8000, help="run on the given port", type=int)
 rootLogger = logging.getLogger('')
 rootLogger.setLevel(logging.ERROR)
 
-APPLICATION_NAME = 'Expense App' 
+APPLICATION_NAME = 'SwapMeet' 
 
 class IndexHandler(tornado.web.RequestHandler, SessionMixin):
   def get(self):
@@ -34,38 +34,31 @@ class IndexHandler(tornado.web.RequestHandler, SessionMixin):
     self.write(templ.generate(APPLICATION_NAME=APPLICATION_NAME))
 
 class Application(tornado.web.Application):
-    def __init__(self):
-        handlers = [
-            (r"/", IndexHandler),
-        ]
-        settings = dict(
-            cookie_secret=base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
-            template_path=os.path.join(os.path.dirname(__file__), "template"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=True,
-            autoescape=None,
-            debug=True,
-        )
-        settings['pycket'] = {
-            'engine': 'redis',
-            'storage': {
-                'host': '127.0.0.1',
-                'port': 6379,
-                'db_sessions': 10,
-                'db_notifications': 11
-            }
-        }
-        RegisterHandler.install(handlers)
-        LoginHandler.install(handlers)
-        LogoutHandler.install(handlers)
-        ImageUploaderHandler.install(handlers)
-        tornado.web.Application.__init__(self, handlers, **settings)
+  def __init__(self):
+    handlers = [
+        (r"/", IndexHandler),
+    ]
+    settings = dict(
+#      cookie_secret=base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
+      cookie_secret="asfasfasflasjflasfjalKJFHIUHDSFLKHSF",
+      template_path=os.path.join(os.path.dirname(__file__), "template"),
+      static_path=os.path.join(os.path.dirname(__file__), "static"),
+      xsrf_cookies=True,
+      autoescape=None,
+      debug=True,
+    )
+
+    RegisterHandler.install(handlers)
+    LoginHandler.install(handlers)
+    LogoutHandler.install(handlers)
+    ImageUploaderHandler.install(handlers)
+    tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():
-    tornado.options.parse_command_line()
-    app = Application()
-    app.listen(options.port)
-    tornado.ioloop.IOLoop.instance().start()
+  tornado.options.parse_command_line()
+  app = Application()
+  app.listen(options.port)
+  tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
-    main()
+  main()
