@@ -18,8 +18,8 @@ app.UploadView= Backbone.View.extend({
       reader.onload = function(event){
         var img = new Image();
         img.onload = function(){
-          var MAX_WIDTH = 640;
-          var MAX_HEIGHT = 480;
+          var MAX_WIDTH = 300;
+          var MAX_HEIGHT = 225;
           var width = img.width;
           var height = img.height;
 
@@ -45,9 +45,19 @@ app.UploadView= Backbone.View.extend({
       that.file = e.target.files[0];
     },
 
+    dataURItoBlob: function(dataURI) {
+      var binary = atob(dataURI.split(',')[1]);
+      var array = [];
+      for(var i = 0; i < binary.length; i++) {
+          array.push(binary.charCodeAt(i));
+      }
+      return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+    },
+
     submitImage: function(e) {
+      var blob = this.dataURItoBlob(this.dataurl);
       var formData = new FormData();
-      formData.append('file', that.dataurl);
+      formData.append('file', blob);
       //var xhr = new XMLHttpRequest();
       //xhr.open('POST', '/upload');
       //xhr.send(formData);

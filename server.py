@@ -16,6 +16,7 @@ from controllers import RegisterHandler
 from controllers import LoginHandler
 from controllers import LogoutHandler
 from controllers import ImageUploaderHandler
+from controllers import PhotoHandler
 from tornado.options import define, options
 
 this_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
@@ -25,7 +26,7 @@ define("port", default=8000, help="run on the given port", type=int)
 rootLogger = logging.getLogger('')
 rootLogger.setLevel(logging.ERROR)
 
-APPLICATION_NAME = 'SwapMeet' 
+APPLICATION_NAME = 'AppName' 
 
 class IndexHandler(tornado.web.RequestHandler, SessionMixin):
   def get(self):
@@ -33,10 +34,18 @@ class IndexHandler(tornado.web.RequestHandler, SessionMixin):
     templ = loader.load("index.html")
     self.write(templ.generate(APPLICATION_NAME=APPLICATION_NAME))
 
+class JustinHandler(tornado.web.RequestHandler, SessionMixin):
+  def get(self):
+    loader = Loader(os.path.join(this_folder, "template"))
+    templ = loader.load("justin.html")
+    self.write(templ.generate())
+
+
 class Application(tornado.web.Application):
   def __init__(self):
     handlers = [
         (r"/", IndexHandler),
+        (r"/justin", JustinHandler)
     ]
     settings = dict(
 #      cookie_secret=base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
@@ -47,11 +56,12 @@ class Application(tornado.web.Application):
       autoescape=None,
       debug=True,
     )
-
     RegisterHandler.install(handlers)
     LoginHandler.install(handlers)
     LogoutHandler.install(handlers)
     ImageUploaderHandler.install(handlers)
+    PhotoHandler.install(handlers)
+
     tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():

@@ -35,8 +35,9 @@ def valid_pw(name, password, h):
 
 class BaseHandler(tornado.web.RequestHandler):
   def prepare(self):
-    if "application/json" in self.request.headers.get("Content-Type"):
-      self.json_args = json.loads(self.request.body)
+    if self.request.headers.get("Content-Type"):
+      if "application/json" in self.request.headers.get("Content-Type") and len(self.request.body) > 0:
+        self.json_args = json.loads(self.request.body)
   
   def check_xsrf_cookie(self):
     return True
