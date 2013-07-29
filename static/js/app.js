@@ -31,6 +31,7 @@ app.Router = Backbone.Router.extend({
     "logout": "logout",
     "register": "register",
     "upload": "upload",
+    "profile": "profile",
     "*path": "home",
   },
 
@@ -118,6 +119,10 @@ app.Router = Backbone.Router.extend({
     app.uploadView = new app.UploadView();
     app.uploadView.render(null);
     this.$content.html(app.uploadView.el);
+  },
+
+  profile: function() {
+    app.photosView = new app.PhotosView(this.$content, "/photos/user");
   }
 });
 

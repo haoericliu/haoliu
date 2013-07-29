@@ -17,6 +17,7 @@ from controllers import LoginHandler
 from controllers import LogoutHandler
 from controllers import ImageUploaderHandler
 from controllers import PhotoHandler
+from controllers import UserHandler
 from tornado.options import define, options
 
 this_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
@@ -34,18 +35,10 @@ class IndexHandler(tornado.web.RequestHandler, SessionMixin):
     templ = loader.load("index.html")
     self.write(templ.generate(APPLICATION_NAME=APPLICATION_NAME))
 
-class JustinHandler(tornado.web.RequestHandler, SessionMixin):
-  def get(self):
-    loader = Loader(os.path.join(this_folder, "template"))
-    templ = loader.load("justin.html")
-    self.write(templ.generate())
-
-
 class Application(tornado.web.Application):
   def __init__(self):
     handlers = [
         (r"/", IndexHandler),
-        (r"/justin", JustinHandler)
     ]
     settings = dict(
 #      cookie_secret=base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
@@ -61,7 +54,7 @@ class Application(tornado.web.Application):
     LogoutHandler.install(handlers)
     ImageUploaderHandler.install(handlers)
     PhotoHandler.install(handlers)
-
+    UserHandler.install(handlers)
     tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():

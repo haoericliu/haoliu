@@ -13,15 +13,19 @@ app.PhotoView = Backbone.View.extend({
 
 app.PhotosView = Backbone.View.extend({
 
-  initialize: function(el) {
+  initialize: function(el, url) {
     this.root = el;
     this.photos = new app.Photos();
-
      _.bindAll(this, "render", "add", "remove", "change");
     this.photos.bind("add", this.add);
     this.photos.bind("remove", this.remove);
     this.photos.bind("change", this.change);
-    this.photos.fetch();
+    
+    if (url != null) {
+      this.photos.fetch({url: "/photos/user"});
+    } else {
+      this.photos.fetch();
+    }
 
     this.photoViews = [];
   },
