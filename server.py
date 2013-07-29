@@ -18,6 +18,7 @@ from controllers import LogoutHandler
 from controllers import ImageUploaderHandler
 from controllers import PhotoHandler
 from controllers import UserHandler
+from controllers import CategoryHandler
 from tornado.options import define, options
 
 this_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
@@ -55,6 +56,7 @@ class Application(tornado.web.Application):
     ImageUploaderHandler.install(handlers)
     PhotoHandler.install(handlers)
     UserHandler.install(handlers)
+    CategoryHandler.install(handlers)
     tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():

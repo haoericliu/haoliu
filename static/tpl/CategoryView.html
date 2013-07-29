@@ -1,0 +1,7 @@
+<div class="category-list">
+<select>
+<% _.each( categories, function(category){ %>
+  <option value="<%= category.id %>"><%= category.name %></option>
+<% }); %>
+</select> 
+</div>

@@ -24,16 +24,22 @@ class User(BaseModel):
   class Meta:
     order_by = ('username',)
 
+class Category(BaseModel):
+  name = CharField(unique=True)
+
 class Item(BaseModel):
   user = ForeignKeyField(User, related_name='items')
   created_date = DateTimeField()
-
+  description = CharField()
+  category = ForeignKeyField(Category, related_name='items')
+  
 class Photo(BaseModel):
   identifier = CharField(unique=True)
   item = ForeignKeyField(Item, related_name='photos')
 
 def create_tables():
   database.connect()
+  Category.create_table(True)
   User.create_table(True)
   Photo.create_table(True)
   Item.create_table(True)

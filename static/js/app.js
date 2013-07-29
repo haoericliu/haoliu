@@ -32,6 +32,7 @@ app.Router = Backbone.Router.extend({
     "register": "register",
     "upload": "upload",
     "profile": "profile",
+    "category": "category",
     "*path": "home",
   },
 
@@ -123,11 +124,15 @@ app.Router = Backbone.Router.extend({
 
   profile: function() {
     app.photosView = new app.PhotosView(this.$content, "/photos/user");
+  },
+
+  category: function() {
+    app.categoryView = new app.CategoryView(this.$content);
   }
 });
 
 $(document).on("ready", function () {
-  app.loadTemplates(["ShellView", "RegisterView", "LoginView", "HomeView", "UploadView", "PhotoView"],
+  app.loadTemplates(["ShellView", "RegisterView", "LoginView", "HomeView", "UploadView", "PhotoView", "CategoryView"],
     function () {
       app.router = new app.Router();
       Backbone.history.start();

@@ -6,3 +6,4 @@ from loginhandler import LoginHandler
 from logouthandler import LogoutHandler
 from imageuploaderhandler import ImageUploaderHandler
 from photohandler import PhotoHandler
+from categoryhandler import CategoryHandler
