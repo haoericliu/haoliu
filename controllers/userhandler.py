@@ -22,18 +22,13 @@ class UserHandler(BaseHandler):
  
   @login_required 
   def get(self):
-    #photos = Photo.select().iterator()
-    #photoList = [{'id': photo.id, 'identifier': photo.identifier} for photo in photos]
-    #self.write(json_encode(photoList))
-    items = Item.select().where(Item.user == self.current_user)
-    photos = [item.photos for item in items]
+    photos = self.current_user.items.photos
+    photoList = [{'id': photo.id, 'identifier': photo.identifier} for photo in photos]
+    #items = Item.select().where(Item.user == self.current_user)
+    #photos = [item.photos for item in items]
+    #photoList = []
     #for photo in photos:
-    #  self.write(json_encode(photo))
-    photoList = []
-    for photo in photos:
-      for i in photo:
-        photoList.append({'id': i.id, 'identifier': i.identifier})
-          #[pprint(dir(photo)) for photo in photos]
-    #photoList = [{'id': photo.id, 'identifier': photo.identifier} for photo in photos]
+    #  for i in photo:
+    #    photoList.append({'id': i.id, 'identifier': i.identifier})
     self.write(json_encode(photoList))
     self.set_header("Content-Type", "application/json")

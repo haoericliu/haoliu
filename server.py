@@ -20,6 +20,8 @@ from controllers import PhotoHandler
 from controllers import UserHandler
 from controllers import CategoryHandler
 from tornado.options import define, options
+from libs.app_globals import g
+from models import Models2
 
 this_folder = os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0])
 

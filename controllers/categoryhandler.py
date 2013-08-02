@@ -15,6 +15,7 @@ from models import User
 from models import Item
 from models import Category
 from pprint import pprint
+from models import Models2
 
 class CategoryHandler(BaseHandler):
   @classmethod

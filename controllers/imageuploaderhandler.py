@@ -19,6 +19,7 @@ from models import User
 from models import Photo
 from models import Item
 import base64
+from models import Models2
 
 class ImageUploaderHandler(BaseHandler):
   @classmethod
