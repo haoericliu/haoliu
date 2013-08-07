@@ -1,0 +1,30 @@
+<div>
+  <h2>Login</h2>
+    <form id="login-form" method="post">
+      <table>
+        <tr>
+          <td class="label">
+            Username
+          </td>
+          <td>
+            <input type="text" name="username" value="<%= typeof(username)!== 'undefined' ?  username : '' %>">
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">
+            Password
+          </td>
+          <td>
+            <input type="password" name="password" value="">
+          </td>
+        </tr>
+      </table>
+
+      <div class="error">
+         <%= typeof(error_msg)!== 'undefined' ?  error_msg : '' %>
+      </div>
+
+      <input type="submit">
+    </form>
+</div>

@@ -1,19 +1,18 @@
-insert into category (name) values
-('Movies'), 
-('Musics'),
-('Books'),
-('Games'),
-('Electronics'),
-('Home'),
-('Garden'),
-('Tools'),
-('Toys'),
-('Clothing'),
-('Shoes'),
-('Jewelry'),
-('Outdoors'),
-('Sports'),
-('Cars'),
-('Free'),
-('Tickets'),
-('Furnitures')
+insert into category (name) values ('Movies'); 
+insert into category (name) values ('Musics');
+insert into category (name) values ('Books');
+insert into category (name) values ('Games');
+insert into category (name) values ('Electronics');
+insert into category (name) values ('Home');
+insert into category (name) values ('Garden');
+insert into category (name) values ('Tools');
+insert into category (name) values ('Toys');
+insert into category (name) values ('Clothing');
+insert into category (name) values ('Shoes');
+insert into category (name) values ('Jewelry');
+insert into category (name) values ('Outdoors');
+insert into category (name) values ('Sports');
+insert into category (name) values ('Cars');
+insert into category (name) values ('Free');
+insert into category (name) values ('Tickets');
+insert into category (name) values ('Furnitures');
